@@ -16,8 +16,9 @@
 
     <div class="row">
         <div class="col-md-3">
-            <h1>Quicknotes</h1>
-            <a href="#" id="note-new">New Note [+]</a>
+            <h1><i class="glyphicon glyphicon-cloud"></i> Quicknotes</h1>
+            <a href="#" id="account-new" class="btn btn-default">Save Notes</a>
+            <a href="#" id="note-new" class="btn btn-primary">New Note [+]</a>
             <br><br>
             <table id="note-list" class="table table-striped"></table>
         </div>
@@ -41,16 +42,22 @@
   <script type="text/template" id="sidebar-note-template">
     <td class="note-preview">
         <h4 class="note-preview-title"><%- title %> <%= is_primary ? '<small class="glyphicon glyphicon-pencil pull-right"></small>' : '' %></h4>
-        <p class="note-preview-body"><%- body %> <small><a href="#" class="note-edit">[Edit]</a></small></p>
+        <p class="note-preview-body"><%- body %>&nbsp;&nbsp;<small><a href="#" class="note-edit">Edit <i class="glyphicon glyphicon-edit"></i></a></small></p>
     </td>
   </script>
 
   <script type="text/template" id="primary-note-template">
     <input type="text" class="form-control" id="primary-note-title" value="<%- title %>" placeholder="Enter a title..." />
     <textarea class="form-control" rows="18" id="primary-note-body" ><%- body %></textarea>
-    <div class="muted">
-        <small class="pull-left"><a href="#" id="note-primary-delete" class="confirm">Delete this note?</a></small>
-        <small class="pull-right">Created: <%- created_at %></small>
+    <div class="muted note-meta">
+        <small class="pull-left">
+            Created: <%- created_at %>
+        </small>
+        <small class="pull-right">
+            <a href="#" id="note-primary-delete" class="confirm btn btn-danger btn-xs">
+                <i class="glyphicon glyphicon-trash"></i> Delete this note?
+            </a>
+        </small>
     </div>
   </script>
 
