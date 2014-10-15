@@ -8,6 +8,7 @@ var Notes;
     defaults: {
       title: "New Note...",
       body: "",
+      is_primary: null
     },
 
     initialize: function() {
@@ -102,7 +103,7 @@ var Notes;
       var title = this.$("#primary-note-title").val();
       var body = this.$("#primary-note-body").val();
 
-      if (title && body) {
+      if (title) {
         this.model.set({
           title: title,
           body: body,
@@ -123,7 +124,7 @@ var Notes;
     el: $("#note-app"),
 
     events: {
-      "click #note-new": "createNote",
+      "click #note-new": "create_note",
     },
 
     initialize: function() {
@@ -150,10 +151,10 @@ var Notes;
       this.make_primary(Notes.models[0]);
     },
 
-    createNote: function(e) {
+    create_note: function(e) {
       var note = new Note();
-      Notes.add(note);
       this.make_primary(note);
+      Notes.add(note);
     },
 
     make_primary: function(note){
