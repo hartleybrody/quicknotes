@@ -70,6 +70,12 @@
             return false;
         });
     });
+     
+    $(window).scroll(function() {
+        if ($(window).width() > 992){
+            $('#primary').css('top', $(window).scrollTop());    
+        }
+    });
   </script>
 
   </body>
