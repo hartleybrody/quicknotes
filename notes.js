@@ -1,9 +1,6 @@
 var Notes;
 
-//////////////////////////////////// $(function(){
-
-  // Note Model
-  // ----------
+$(function(){
 
   // Our basic **Note** model has `title`, `body` and `created_at` attributes.
   var Note = Backbone.Model.extend({
@@ -23,10 +20,6 @@ var Notes;
 
   });
 
-  // Note Collection
-  // ---------------
-
-  // The collection of notes is backed by *Firebase*.
   var NoteList = Backbone.Firebase.Collection.extend({
 
     // Reference to this collection's model.
@@ -34,14 +27,9 @@ var Notes;
 
     // Save all of the notes in a Firebase.
     firebase: new Firebase("https://sweltering-inferno-6969.firebaseio.com/"),
-
   });
 
-  // Create our global collection of **Notes**.
   Notes = new NoteList();
-
-  // Note Item View
-  // --------------
 
 
   var SidebarNoteView = Backbone.View.extend({
@@ -62,6 +50,7 @@ var Notes;
 
     // Re-render the note.
     render: function() {
+      console.log(this.model.toJSON());
       this.$el.html(this.template(this.model.toJSON()));
       return this;
     },
@@ -110,25 +99,15 @@ var Notes;
 
   });
 
-  // The Application
-  // ---------------
 
-  // Our overall **AppView** is the top-level piece of UI.
   var AppView = Backbone.View.extend({
 
-    // Instead of generating a new element, bind to the existing skeleton of
-    // the App already present in the HTML.
     el: $("#note-app"),
 
-
-    // Delegated events for creating new items, and clearing completed ones.
     events: {
       "click #new-note": "createNote",
     },
 
-    // At initialization we bind to the relevant events on the `Notes`
-    // collection, when items are added or changed. Kick things off by
-    // loading any preexisting notes that might be saved in *Firebase*.
     initialize: function() {
 
       this.listenTo(Notes, 'add', this.addOne);
@@ -141,23 +120,20 @@ var Notes;
 
     },
 
-    // Add a single note item to the list by creating a view for it, and
-    // appending its element to the `<ul>`.
     addOne: function(note) {
       var view = new SidebarNoteView({model: note});
       this.$("#note-list").append(view.render().el);
     },
 
-    // Add all items in the **Notes** collection at once.
     addAll: function() {
       this.$("#note-list").html("");
       Notes.each(this.addOne, this);
     },
 
-    // Create new **Note** model, persisting it to *Firebase*.
     createNote: function(e) {
       var note = new Note();
       Notes.add(note);
+      // note.trigger("make_primary", note);
       this.makePrimary(note);
     },
 
@@ -172,9 +148,9 @@ var Notes;
   // Finally, we kick things off by creating the **App**.
   var App = new AppView();
 
-  // var n1 = new Note({title: "Fake Note #1", body: "Fake body"});
-  // var n2 = new Note({title: "Fake Note #2", body: "Fake body"});
-  // var n3 = new Note({title: "Fake Note #3", body: "Fake body"});
+  // var n1 = new Note({title: "Fake Note #1", body: "Fake body #1"});
+  // var n2 = new Note({title: "Fake Note #2", body: "Fake body #2"});
+  // var n3 = new Note({title: "Fake Note #3", body: "Fake body #3"});
   // Notes.add([n1, n2, n3]);
 
-//////////////////////////////////// });
+});
