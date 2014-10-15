@@ -6,7 +6,7 @@ var Notes;
   var Note = Backbone.Model.extend({
 
     defaults: {
-      title: "",
+      title: "New Note...",
       body: ""
     },
 
@@ -37,7 +37,8 @@ var Notes;
     template: _.template($('#sidebar-note-template').html()),
 
     events: {
-      "click .preview"  : "edit",
+      "click .note-edit":     "edit",
+      "click .note-preview":  "edit",
     },
 
     initialize: function() {
@@ -45,9 +46,19 @@ var Notes;
     },
 
     render: function() {
-      // console.log("rendering SidebarNoteView");
-      // console.log(this.model.toJSON());
-      this.$el.html(this.template(this.model.toJSON()));
+      var templateData = this.model.toJSON();
+
+      var maxTitleLength = 20;
+      if (templateData["title"].length > maxTitleLength){
+        templateData["title"] = templateData["title"].substring(0, maxTitleLength) + "...";
+      }
+
+      var maxBodyLength = 160;
+      if (templateData["body"].length > maxBodyLength){
+        templateData["body"] = templateData["body"].substring(0, maxBodyLength) + "...";
+      }
+      
+      this.$el.html(this.template(templateData));
       return this;
     },
 
@@ -102,7 +113,7 @@ var Notes;
     el: $("#note-app"),
 
     events: {
-      "click #new-note": "createNote",
+      "click #note-new": "createNote",
     },
 
     initialize: function() {
