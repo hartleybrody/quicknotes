@@ -55,5 +55,14 @@
 
   <script src="notes.js"></script>
 
+  <script type="text/javascript">
+
+    $(document).ready( function(){
+        $("#note-app").on("click", "a[href='#']", function(){
+            return false;
+        });
+    });
+  </script>
+
   </body>
 </html>
