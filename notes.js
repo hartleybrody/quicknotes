@@ -79,6 +79,7 @@ var Notes;
     events: {
       "keyup #primary-note-title"  : "save",
       "keyup #primary-note-body"   : "save",
+      "click #note-primary-delete" : "destroy",
     },
 
     initialize: function() {
@@ -105,6 +106,10 @@ var Notes;
 
     },
 
+    destroy: function(){
+      Notes.remove(this.model);
+    }
+
   });
 
 
@@ -120,6 +125,7 @@ var Notes;
 
       this.listenTo(Notes, 'add', this.addOne);
       this.listenTo(Notes, 'reset', this.addAll);
+      this.listenTo(Notes, 'remove', this.addAll);
 
       this.listenTo(Notes, 'make_primary', this.makePrimary);
       // Notes.on('make_primary', this.makePrimary);
