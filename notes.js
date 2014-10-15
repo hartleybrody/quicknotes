@@ -7,13 +7,13 @@ var Notes;
 
     defaults: {
       title: "New Note...",
-      body: ""
+      body: "",
     },
 
     initialize: function() {
-      this.set({
-        "created_at": new Date()
-      });
+      if (!this.get("created_at")){
+        this.set({ "created_at": new Date()});
+      }
     },
 
   });
