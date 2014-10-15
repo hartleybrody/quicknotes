@@ -14,6 +14,10 @@ var Notes;
       if (!this.get("created_at")){
         this.set({ "created_at": new Date()});
       }
+
+      if (this.get("is_primary")){
+        App.make_primary(this);
+      }
     },
 
   });
@@ -65,7 +69,7 @@ var Notes;
 
     // Move this note's content into the primary view
     edit: function() {
-      this.model.trigger("make_primary", this.model);
+      App.make_primary(this.model);
     },
 
   });
@@ -128,8 +132,7 @@ var Notes;
       this.listenTo(Notes, 'reset', this.addAll);
       this.listenTo(Notes, 'remove', this.addAll);
 
-      this.listenTo(Notes, 'make_primary', this.makePrimary);
-      // Notes.on('make_primary', this.makePrimary);
+      this.listenTo(Notes, 'make_primary', this.make_primary);
 
       this.titleInput = this.$('#current-note-title');
       this.bodyInput = this.$('#current-note-body');
@@ -139,20 +142,26 @@ var Notes;
     addOne: function(note) {
       var view = new SidebarNoteView({model: note});
       this.$("#note-list").append(view.render().el);
-      view.model.trigger("make_primary", view.model);
     },
 
     addAll: function() {
       this.$("#note-list").html("");
       Notes.each(this.addOne, this);
+      this.make_primary(Notes.models[0]);
     },
 
     createNote: function(e) {
       var note = new Note();
       Notes.add(note);
+      this.make_primary(note);
     },
 
-    makePrimary: function(note){
+    make_primary: function(note){
+      Notes.each(function(n){
+        n.set("is_primary", false);
+      });
+      note.set("is_primary", true);
+
       delete this.primaryView;  // remove reference to existing primaryView
       this.primaryView = new PrimaryNoteView({model: note});
       this.$("#primary").html(this.primaryView.render().el);
