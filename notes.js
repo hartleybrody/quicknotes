@@ -129,30 +129,40 @@ var Notes;
 
     initialize: function() {
 
-      this.listenTo(Notes, 'add', this.addOne);
-      this.listenTo(Notes, 'reset', this.addAll);
-      this.listenTo(Notes, 'remove', this.addAll);
+      this.listenTo(Notes, 'add', this.add_note_to_sidebar);
+      this.listenTo(Notes, 'reset', this.reset_sidebar);
+      this.listenTo(Notes, 'remove', this.reset_sidebar);
+      this.listenTo(Notes, 'sync', this.reset_sidebar);
 
       this.listenTo(Notes, 'make_primary', this.make_primary);
 
-      this.titleInput = this.$('#current-note-title');
-      this.bodyInput = this.$('#current-note-body');
-
     },
 
-    addOne: function(note) {
+    add_note_to_sidebar: function(note) {
       var view = new SidebarNoteView({model: note});
       this.$("#note-list").append(view.render().el);
     },
 
-    addAll: function() {
+    reset_sidebar: function() {
       this.$("#note-list").html("");
-      Notes.each(this.addOne, this);
-      this.make_primary(Notes.models[0]);
+      if (Notes.models.length === 0){
+        this.create_note({}, {
+          "title": "Welcome to Quicknotes",
+          "body": "Any changes you make here are immediately available and synced to all of your devices.\n\nCreate an account to save your notes.",
+          "created_at": new Date()
+        });
+      }
+      else {
+        Notes.each(this.add_note_to_sidebar, this);
+        this.make_primary(Notes.models[0]);
+      }
     },
 
-    create_note: function(e) {
+    create_note: function(e, note_attrs) {
       var note = new Note();
+      if (note_attrs && typeof note_attrs === "object"){
+        note.set(note_attrs);
+      }
       this.make_primary(note);
       Notes.add(note);
     },
