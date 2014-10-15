@@ -17,14 +17,13 @@
     <div class="row">
         <div class="col-md-3">
             <h1>Quicknotes</h1>
-            <a href="#">New Note [+]</a>
+            <a href="#" id="new-note">New Note [+]</a>
             <hr/>
             <ul id="note-list"></ul>
         </div>
 
         <div class="col-md-9">
-            <input type="text" class="form-control" id="current-note-title" />
-            <textarea class="form-control" rows="3" id="current-note-body"></textarea>
+            <div id="primary"></div>
         </div>
     </div>
 
@@ -36,17 +35,24 @@
   <script src="https://cdn.firebase.com/v0/firebase.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.10/backbone-min.js"></script>
   <script src="https://cdn.firebase.com/libs/backfire/0.3.0/backbone-firebase.min.js"></script>
-  
-  <script src="notes.js"></script>
 
   <!-- Templates -->
 
-  <script type="text/template" id="note-template">
-    <div class="view">
-      <h3><%- title %></h3>
-      <p><%- body %></p>
+  <script type="text/template" id="sidebar-note-template">
+    <div class="preview">
+        <h3><%- title %></h3>
+        <p><%- body %></p>
     </div>
   </script>
+
+  <script type="text/template" id="primary-note-template">
+    <div class="primary">
+        <input type="text" class="form-control" id="primary-note-title" value="<%- title %>" />
+        <textarea class="form-control" rows="3" id="primary-note-body" ><%- body %></textarea>
+    </div>
+  </script>
+
+  <script src="notes.js"></script>
 
   </body>
 </html>
