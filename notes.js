@@ -37,7 +37,7 @@ var Notes;
     template: _.template($('#sidebar-note-template').html()),
 
     events: {
-      "dblclick .preview"  : "edit",
+      "click .preview"  : "edit",
     },
 
     initialize: function() {
@@ -66,8 +66,8 @@ var Notes;
 
     // The DOM events specific to an item.
     events: {
-      "keypress #primary-note-title"  : "save",
-      "keypress #primary-note-body"   : "save",
+      "keyup #primary-note-title"  : "save",
+      "keyup #primary-note-body"   : "save",
     },
 
     initialize: function() {
