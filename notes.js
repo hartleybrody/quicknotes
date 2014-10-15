@@ -25,6 +25,7 @@ var Notes;
 
     // Save all of the notes in a Firebase.
     firebase: new Firebase("https://sweltering-inferno-6969.firebaseio.com/"),
+
   });
 
   Notes = new NoteList();
@@ -32,7 +33,7 @@ var Notes;
 
   var SidebarNoteView = Backbone.View.extend({
 
-    tagName:  "li",
+    tagName:  "tr",
 
     template: _.template($('#sidebar-note-template').html()),
 

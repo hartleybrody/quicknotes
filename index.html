@@ -18,8 +18,8 @@
         <div class="col-md-3">
             <h1>Quicknotes</h1>
             <a href="#" id="note-new">New Note [+]</a>
-            <hr/>
-            <ul id="note-list"></ul>
+            <br><br>
+            <table id="note-list" class="table table-striped"></table>
         </div>
 
         <div class="col-md-9">
@@ -39,10 +39,10 @@
   <!-- Templates -->
 
   <script type="text/template" id="sidebar-note-template">
-    <div class="note-preview">
+    <td class="note-preview">
         <h4 class="note-preview-title"><%- title %></h4>
         <p class="note-preview-body"><%- body %> <small><a href="#" class="note-edit">[Edit]</a></small></p>
-    </div>
+    </td>
   </script>
 
   <script type="text/template" id="primary-note-template">
