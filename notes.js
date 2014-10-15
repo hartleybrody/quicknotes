@@ -107,7 +107,7 @@ var Notes;
     },
 
     destroy: function(){
-      Notes.remove(this.model);
+      window.confirm("Are you sure you want to delete this note?") && Notes.remove(this.model);
     }
 
   });
