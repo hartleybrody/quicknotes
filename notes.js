@@ -1,17 +1,15 @@
 var Notes;
 
-$(function(){
+/////////////////////////////////////////////////// $(function(){
 
   // Our basic **Note** model has `title`, `body` and `created_at` attributes.
   var Note = Backbone.Model.extend({
 
-    // Default attributes for the note item.
     defaults: {
       title: "",
       body: ""
     },
 
-    // Ensure that each note created has `title` and set `created_at`.
     initialize: function() {
       this.set({
         "created_at": new Date()
@@ -36,10 +34,8 @@ $(function(){
 
     tagName:  "li",
 
-    // Cache the template function for a single item.
     template: _.template($('#sidebar-note-template').html()),
 
-    // The DOM events specific to an item.
     events: {
       "dblclick .preview"  : "edit",
     },
@@ -48,14 +44,14 @@ $(function(){
       this.listenTo(this.model, 'change', this.render);
     },
 
-    // Re-render the note.
     render: function() {
-      console.log(this.model.toJSON());
+      // console.log("rendering SidebarNoteView");
+      // console.log(this.model.toJSON());
       this.$el.html(this.template(this.model.toJSON()));
       return this;
     },
 
-    // Move this note's content into the large form
+    // Move this note's content into the primary view
     edit: function() {
       this.model.trigger("make_primary", this.model);
     },
@@ -75,15 +71,16 @@ $(function(){
     },
 
     initialize: function() {
-      this.listenTo(this.model, 'change', this.render);
+      // this.listenTo(this.model, 'change', this.render);
     },
 
     render: function() {
+      // console.log("rendering PrimaryNoteView");
+      // console.log(this.model.toJSON());
       this.$el.html(this.template(this.model.toJSON()));
       return this;
     },
 
-    // Save changes to the note.
     save: function() {
       var title = this.$("#primary-note-title").val();
       var body = this.$("#primary-note-body").val();
@@ -114,6 +111,7 @@ $(function(){
       this.listenTo(Notes, 'reset', this.addAll);
 
       this.listenTo(Notes, 'make_primary', this.makePrimary);
+      // Notes.on('make_primary', this.makePrimary);
 
       this.titleInput = this.$('#current-note-title');
       this.bodyInput = this.$('#current-note-body');
@@ -123,6 +121,7 @@ $(function(){
     addOne: function(note) {
       var view = new SidebarNoteView({model: note});
       this.$("#note-list").append(view.render().el);
+      view.model.trigger("make_primary", view.model);
     },
 
     addAll: function() {
@@ -133,19 +132,16 @@ $(function(){
     createNote: function(e) {
       var note = new Note();
       Notes.add(note);
-      // note.trigger("make_primary", note);
-      this.makePrimary(note);
     },
 
     makePrimary: function(note){
-      // TODO delete previous PrimaryNoteView
+      delete this.primaryView;  // remove reference to existing primaryView
       this.primaryView = new PrimaryNoteView({model: note});
       this.$("#primary").html(this.primaryView.render().el);
     }
 
   });
 
-  // Finally, we kick things off by creating the **App**.
   var App = new AppView();
 
   // var n1 = new Note({title: "Fake Note #1", body: "Fake body #1"});
@@ -153,4 +149,4 @@ $(function(){
   // var n3 = new Note({title: "Fake Note #3", body: "Fake body #3"});
   // Notes.add([n1, n2, n3]);
 
-});
+/////////////////////////////////////////////////// });
